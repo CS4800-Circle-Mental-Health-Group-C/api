@@ -1,4 +1,4 @@
-# api serverless API
+# Circle serverless API
 The api project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
 
 The starter project defines a simple `/ping` resource that can accept `GET` requests with its tests.
