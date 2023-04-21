@@ -13,7 +13,7 @@ Resources:
       Runtime: java11
       CodeUri: .
       MemorySize: 1512
-      Policies: AWSLambdaBasicExecutionRole, AWSLambdaMicroserviceExecutionRole
+      Policies: AWSLambdaDynamoDBExecutionRole
       Timeout: 60
       SnapStart:
         ApplyOn: PublishedVersions
