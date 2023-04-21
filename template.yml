@@ -13,19 +13,19 @@ Resources:
       Runtime: java11
       CodeUri: .
       MemorySize: 1512
-      Policies: AWSLambdaBasicExecutionRole
+      Policies: AWSLambdaBasicExecutionRole, AWSLambdaMicroserviceExecutionRole
       Timeout: 60
       SnapStart:
         ApplyOn: PublishedVersions
       Events:
-        HttpApiEvent:
-          Type: HttpApi
+        ProxyResource:
+          Type: Api
           Properties:
-            TimeoutInMillis: 20000
-            PayloadFormatVersion: '1.0'
+            Path: /{proxy+}
+            Method: any
 Outputs:
-  CircleTestApi:
+  CircleApi:
     Description: URL for application
-    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/user"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
     Export:
-      Name: CircleApiTest
+      Name: CircleApi
