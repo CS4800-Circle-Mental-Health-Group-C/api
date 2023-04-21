@@ -1,10 +1,10 @@
+---
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: AWS Serverless Spring Boot 2 API - com.circle::api
 Globals:
   Api:
     EndpointConfiguration: REGIONAL
-
 Resources:
   ApiFunction:
     Type: AWS::Serverless::Function
@@ -12,19 +12,20 @@ Resources:
       Handler: com.circle.StreamLambdaHandler::handleRequest
       Runtime: java11
       CodeUri: .
-      MemorySize: 512
+      MemorySize: 1512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 30
+      Timeout: 60
+      SnapStart:
+        ApplyOn: PublishedVersions
       Events:
-        ProxyResource:
-          Type: Api
+        HttpApiEvent:
+          Type: HttpApi
           Properties:
-            Path: /{proxy+}
-            Method: any
-
+            TimeoutInMillis: 20000
+            PayloadFormatVersion: '1.0'
 Outputs:
-  ApiApi:
+  CircleTestApi:
     Description: URL for application
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/user"
     Export:
-      Name: ApiApi
+      Name: CircleApiTest
