@@ -1,4 +1,4 @@
-package com.circle.filter;
+package com.circle.api.filter;
 
 import java.io.IOException;
 
