@@ -1,5 +1,5 @@
 ---
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: AWS Serverless Spring Boot 2 API - com.circle::api
 Globals:
@@ -13,7 +13,10 @@ Resources:
       Runtime: java11
       CodeUri: .
       MemorySize: 1512
-      Policies: AWSLambdaDynamoDBExecutionRole
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: "*"
       Timeout: 60
       SnapStart:
         ApplyOn: PublishedVersions
