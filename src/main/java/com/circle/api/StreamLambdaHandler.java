@@ -1,4 +1,4 @@
-package com.circle;
+package com.circle.api;
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
 import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
@@ -7,7 +7,7 @@ import com.amazonaws.serverless.proxy.spring.SpringBootLambdaContainerHandler;
 import com.amazonaws.serverless.proxy.spring.SpringBootProxyHandlerBuilder;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
-import com.circle.filter.CognitoIdentityFilter;
+import com.circle.api.filter.CognitoIdentityFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

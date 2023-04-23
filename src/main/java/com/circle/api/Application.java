@@ -1,5 +1,6 @@
-package com.circle;
+package com.circle.api;
 
+import com.circle.api.controller.UserController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +9,6 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import com.circle.controller.UserController;
 
 @SpringBootApplication
 // We use direct @Import instead of @ComponentScan to speed up cold starts

@@ -9,7 +9,7 @@ Resources:
   ApiFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.circle.StreamLambdaHandler::handleRequest
+      Handler: com.circle.api.StreamLambdaHandler::handleRequest
       Runtime: java11
       CodeUri: .
       MemorySize: 1512

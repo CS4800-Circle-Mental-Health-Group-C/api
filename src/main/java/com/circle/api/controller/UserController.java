@@ -1,5 +1,7 @@
-package com.circle.controller;
+package com.circle.api.controller;
 
+import com.circle.api.model.User;
+import com.circle.api.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import com.circle.model.User;
-import com.circle.service.UserService;
 
 @RestController
 @EnableWebMvc
