@@ -1,4 +1,4 @@
-package com.circle.api.config;
+package com.circle.config;
 
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.context.annotation.Bean;
