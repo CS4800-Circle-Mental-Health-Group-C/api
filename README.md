@@ -1,20 +1,22 @@
-# Circle serverless API
-The api project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
+# Circle Serverless API
 
-The starter project defines a simple `/ping` resource that can accept `GET` requests with its tests.
+The Circle API project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
 
-The project folder also includes a `template.yml` file. You can use this [SAM](https://github.com/awslabs/serverless-application-model) file to deploy the project to AWS Lambda and Amazon API Gateway or test in local with the [SAM CLI](https://github.com/awslabs/aws-sam-cli). 
+This project serves as the backend for the Circle app. It is a [Serverless](https://serverless.com/) application, built with [AWS Lambda](https://aws.amazon.com/lambda/) and [Amazon API Gateway](https://aws.amazon.com/api-gateway/). It is built with [AWS SAM](https://aws.amazon.com/serverless/sam/) and [AWS CloudFormation](https://aws.amazon.com/cloudformation/). The project leverages the [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container) to run a Spring Boot 2 REST API in a Lambda function.
+
+The project folder also includes a `template.yml` file. You can use this [SAM](https://github.com/awslabs/serverless-application-model) file to deploy the project to AWS Lambda and Amazon API Gateway or test in local with the [SAM CLI](https://github.com/awslabs/aws-sam-cli).
 
 ## Pre-requisites
-* [AWS CLI](https://aws.amazon.com/cli/)
-* [SAM CLI](https://github.com/awslabs/aws-sam-cli)
-* [Gradle](https://gradle.org/) or [Maven](https://maven.apache.org/)
+
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [SAM CLI](https://github.com/awslabs/aws-sam-cli)
+- [Gradle](https://gradle.org/) or [Maven](https://maven.apache.org/)
 
 ## Building the project
+
 You can use the SAM CLI to quickly build the project
+
 ```bash
-$ mvn archetype:generate -DartifactId=api -DarchetypeGroupId=com.amazonaws.serverless.archetypes -DarchetypeArtifactId=aws-serverless-jersey-archetype -DarchetypeVersion=1.9.1 -DgroupId=com.circle -Dversion=1.0-SNAPSHOT -Dinteractive=false
-$ cd api
 $ sam build
 Building resource 'ApiFunction'
 Running JavaGradleWorkflow:GradleBuild
@@ -43,17 +45,8 @@ Mounting com.amazonaws.serverless.archetypes.StreamLambdaHandler::handleRequest 
 ...
 ```
 
-Using a new shell, you can send a test ping request to your API:
-
-```bash
-$ curl -s http://127.0.0.1:3000/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
-}
-``` 
-
 ## Deploying to AWS
+
 To deploy the application in your AWS account, you can use the SAM CLI's guided deployment process and follow the instructions on the screen
 
 ```
@@ -69,14 +62,4 @@ OutputKey-Description                        OutputValue
 -------------------------------------------------------------------------------------------------------------
 ApiApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/pets
 -------------------------------------------------------------------------------------------------------------
-```
-
-Copy the `OutputValue` into a browser or use curl to test your first request:
-
-```bash
-$ curl -s https://xxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
-}
 ```
