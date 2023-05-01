@@ -3,10 +3,12 @@ package com.circle.api.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.circle.api.model.Survey;
@@ -31,6 +33,16 @@ public class SurveyController {
 
     logger.info("Survey: " + survey);
 
+    return survey;
+  }
+
+  @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST)
+  @ResponseBody
+  public Survey getSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
+    logger.info("Adding survey: " + survey);
+    survey.setKey(id);
+    survey.setUserId(id);
+    surveyService.addSurvey(survey);
     return survey;
   }
 }

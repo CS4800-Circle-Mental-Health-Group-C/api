@@ -6,4 +6,6 @@ public interface SurveyRepository {
 
     public Survey findByUserIdSurveyId(String userId, String surveyId);
     
+    public Survey addSurvey(Survey survey);
+
 }

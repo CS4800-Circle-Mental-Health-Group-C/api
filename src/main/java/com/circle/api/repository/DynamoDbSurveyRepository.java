@@ -24,5 +24,12 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
         Survey survey = surveyTable.getItem(key);
         return survey;
     }
+
+    @Override 
+    public Survey addSurvey(Survey survey) {
+        surveyTable.putItem(survey);
+        return survey;
+    }
+
     
 }

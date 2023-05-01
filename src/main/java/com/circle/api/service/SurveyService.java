@@ -17,4 +17,8 @@ public class SurveyService {
         return surveyRepository.findByUserIdSurveyId(userId,surveyId);
     }
 
+    public Survey addSurvey(Survey survey) {
+        return surveyRepository.addSurvey(survey);
+    }
+
 }

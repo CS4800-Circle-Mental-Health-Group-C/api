@@ -4,6 +4,7 @@ import java.util.Map;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbIgnore;
 
 @DynamoDbBean
 public class Survey extends DynamoDbBase {
@@ -24,7 +25,10 @@ public class Survey extends DynamoDbBase {
     this.response = surveyBuilder.response;
   }
 
-
+  public void setKey(String id) {
+    setPartitionKey(SurveyKeyBuilder.makePartitionKey(id));
+  }
+  
   @DynamoDbAttribute("User Id")
   public String getUserId() {
     return this.userId;
@@ -90,11 +94,11 @@ public class Survey extends DynamoDbBase {
         return this;
     }
     public SurveyBuilder partitionKey(String partitionKey) {
-        this.partitionKey = partitionKey;
+        this.partitionKey = SurveyKeyBuilder.makePartitionKey(partitionKey);
         return this;
     }
     public SurveyBuilder sortKey(String sortKey) {
-        this.sortKey = sortKey;
+        this.sortKey = SurveyKeyBuilder.makeSortKey(sortKey);
         return this;
     }
     public Survey build() {
