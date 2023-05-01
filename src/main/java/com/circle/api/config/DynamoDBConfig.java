@@ -3,6 +3,7 @@ package com.circle.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.circle.api.model.Circle;
 import com.circle.api.model.Survey;
 import com.circle.api.model.User;
 
@@ -37,5 +38,10 @@ public class DynamoDBConfig {
   @Bean
   public DynamoDbTable<Survey> surveyTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
         return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(Survey.class));
+    }
+
+  @Bean
+  public DynamoDbTable<Circle> circleTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
+        return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(Circle.class));
     }
 }
