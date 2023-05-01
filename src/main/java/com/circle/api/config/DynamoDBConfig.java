@@ -1,14 +1,10 @@
 package com.circle.api.config;
 
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.circle.api.model.Survey;
 import com.circle.api.model.User;
-import com.circle.api.model.Question;
-
 
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
@@ -39,7 +35,7 @@ public class DynamoDBConfig {
     }
 
   @Bean
-  public DynamoDbTable<Question> questionTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
-        return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(Question.class));
+  public DynamoDbTable<Survey> surveyTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
+        return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(Survey.class));
     }
 }
