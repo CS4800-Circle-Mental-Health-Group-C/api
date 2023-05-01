@@ -26,4 +26,10 @@ public class DynamoDbUserRepository implements UserRepository {
         User user = userTable.getItem(key);
         return user;
     }
+
+    @Override 
+    public User createUser(User user) {
+        userTable.putItem(user);
+        return user;
+    }
 }

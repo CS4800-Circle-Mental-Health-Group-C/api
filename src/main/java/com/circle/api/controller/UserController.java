@@ -34,20 +34,20 @@ public class UserController {
 
     return user;
   }
+
+  @RequestMapping(path = "/user", method = RequestMethod.POST)
+  public User createUser(@RequestBody User user) {
+    logger.info("Creating user: " + user);
+
+    userService.createUser(user);
+
+    return user;
+  }
+
 }
 
 
-
-
-
-
-  // @RequestMapping(path = "/user", method = RequestMethod.POST)
-  // public User createUser(@RequestBody User user) {
-  //   logger.info("Creating user: " + user);
-
-  //   userService.createUser(user);
-  //   return user;
-  // }
+  
 
 // x user/ with a POST method to create a new user
 // x user/id=?queryParam or user/pathParam with a GET to get a user

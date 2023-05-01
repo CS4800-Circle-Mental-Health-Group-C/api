@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.circle.api.model.User;
+import com.circle.api.model.Question;
+
 
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
@@ -34,5 +36,10 @@ public class DynamoDBConfig {
   @Bean
     public DynamoDbTable<User> userTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
         return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(User.class));
+    }
+
+  @Bean
+  public DynamoDbTable<Question> questionTable(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
+        return dynamoDbEnhancedClient(dynamoDbClient()).table("User", TableSchema.fromBean(Question.class));
     }
 }
