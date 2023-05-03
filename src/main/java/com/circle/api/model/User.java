@@ -1,9 +1,10 @@
 package com.circle.api.model;
 
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbIgnore;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -18,6 +19,7 @@ public class User extends DynamoDbBase{
   private String name;
   private String phone;
   private String userId;
+  private String dateAdded;
 
   public User() {}
 
@@ -26,18 +28,19 @@ public class User extends DynamoDbBase{
     this.name = userBuilder.name;
     this.phone = userBuilder.phone;
     this.userId = userBuilder.userId;
+    this.dateAdded = userBuilder.dateAdded;
     this.partitionKey = userBuilder.partitionKey;
     this.sortKey = userBuilder.sortKey;
   }
+  
+  // @DynamoDbIgnore
+  // public String getId() {
+  //   return getSortKey().substring(USER_PK_PREFIX.length());
+  // }
 
   public void setId(String id) {
     setPartitionKey(UserKeyBuilder.makePartitionKey(userId));
     setSortKey(UserKeyBuilder.makeSortKey(userId));
-  }
-
-  @DynamoDBIgnore
-  public String getId() {
-    return getSortKey().substring(USER_PK_PREFIX.length());
   }
 
   // Getters and Setters
@@ -76,6 +79,15 @@ public class User extends DynamoDbBase{
   public void setUserId(String userId) {
     this.userId = userId;
   }
+
+  @DynamoDbAttribute("Date Added")
+  public String getDateAdded() {
+    return dateAdded;
+  }
+
+  public void setDateAdded(String dateAdded) {
+    this.dateAdded = dateAdded;
+  }
  
   // Return UserBuilder Object
   public static UserBuilder builder() {
@@ -88,6 +100,7 @@ public class User extends DynamoDbBase{
     private String name;
     private String phone;
     private String userId;
+    private String dateAdded;
     private String partitionKey; 
     private String sortKey;
 
@@ -107,6 +120,10 @@ public class User extends DynamoDbBase{
       this.userId = userId;
       return this;
     }
+    public UserBuilder dateAdded(String dateAdded) {
+      this.dateAdded = dateAdded;
+      return this;
+    }
 
     public UserBuilder partitionKey(String partitionKey) {
       this.partitionKey = partitionKey;
@@ -118,10 +135,10 @@ public class User extends DynamoDbBase{
       return this;
     }
 
-    public UserBuilder id(String id) {
-      this.partitionKey = UserKeyBuilder.makePartitionKey(id);
-      return this;
-    }
+    // public UserBuilder id(String id) {
+    //   this.partitionKey = UserKeyBuilder.makePartitionKey(id);
+    //   return this;
+    // }
     
     public User build() {
       return new User(this);

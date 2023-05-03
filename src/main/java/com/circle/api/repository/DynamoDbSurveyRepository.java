@@ -1,10 +1,16 @@
 package com.circle.api.repository;
 
 import com.circle.api.model.Survey;
+import com.circle.api.model.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Repository;
 
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 @Repository
 public class DynamoDbSurveyRepository implements SurveyRepository {
@@ -26,8 +32,33 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
     }
 
     @Override 
+    public List<Survey> findAllUserSurveys(String id) {
+        QueryConditional skBeginsWithQuery = QueryConditional.sortBeginsWith(
+            Key.builder()
+               .partitionValue(User.USER_PK_PREFIX + id)
+               .sortValue(Survey.SURVEY_SK_PREFIX)
+               .build()
+        );
+
+        return surveyTable.query(skBeginsWithQuery)
+                          .items()
+                          .stream()
+                          .collect(Collectors.toList());
+    }
+
+    @Override 
     public Survey addSurvey(Survey survey) {
         surveyTable.putItem(survey);
+        return survey;
+    }
+
+    @Override
+    public Survey findUserSurvey(String userId, String surveyId) {
+        Key key = Key.builder()
+                     .partitionValue(User.USER_PK_PREFIX + userId)
+                     .sortValue(Survey.SURVEY_SK_PREFIX + surveyId)
+                     .build();
+        Survey survey = surveyTable.getItem(key);
         return survey;
     }
 

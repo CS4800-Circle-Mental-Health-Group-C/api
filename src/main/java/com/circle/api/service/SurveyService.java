@@ -1,6 +1,9 @@
 package com.circle.api.service;
 
 import com.circle.api.model.Survey;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.circle.api.repository.SurveyRepository;
 
@@ -19,6 +22,14 @@ public class SurveyService {
 
     public Survey addSurvey(Survey survey) {
         return surveyRepository.addSurvey(survey);
+    }
+
+    public List<Survey> findAllUserSurveys(String id) {
+        return surveyRepository.findAllUserSurveys(id);
+    }
+
+    public Survey findUserSurvey(String userId, String surveyId) {
+        return surveyRepository.findUserSurvey(userId,surveyId);
     }
 
 }

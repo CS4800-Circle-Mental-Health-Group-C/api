@@ -5,7 +5,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 @DynamoDbBean
 public class Circle extends DynamoDbBase{
-  public static final String CIRCLE_PK_PREFIX = "USER#";
+  public static final String CIRCLE_PK_PREFIX = "CIRCLE#";
   public static final String CIRCLE_SK_PREFIX = "CIRCLE#";
 
   private String email;
