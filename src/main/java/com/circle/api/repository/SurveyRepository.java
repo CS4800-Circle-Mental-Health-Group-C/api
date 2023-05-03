@@ -13,4 +13,7 @@ public interface SurveyRepository {
     public List<Survey> findAllUserSurveys(String id);
     
     public Survey findUserSurvey(String userId, String surveyId);
+
+    public Survey createUserSurvey(String id, Survey survey);
+
 }

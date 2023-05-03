@@ -27,6 +27,7 @@ public class Survey extends DynamoDbBase {
 
   public void setKey(String id) {
     setPartitionKey(SurveyKeyBuilder.makePartitionKey(id));
+    setSortKey(SurveyKeyBuilder.makeSortKey(id));
   }
   
   @DynamoDbAttribute("User Id")

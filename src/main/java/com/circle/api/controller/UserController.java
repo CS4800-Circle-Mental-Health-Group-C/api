@@ -69,13 +69,27 @@ public class UserController {
 
   }
 
+  @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST) 
+  public Survey createUserSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
+
+    logger.info("Creating SURVEY#" + id + " response under USER#" + survey.getUserId());
+
+    return surveyService.createUserSurvey(id,survey);
+
+  }
+
+
+  
+
 }
 // - /user?id=queryParam (GET - gets a user) 
 // - /user               (POST - creates a new user)
 // - /user/{id}/survey   (GET - gets a specified user's surveys)
 // - /user/{id}/survey   (POST - add/create survey response for a user)
-// - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
 // - /user/{id}/circle   (GET - gets a user's circle members)
 // - /user/{id}/circle   (POST - add/create user's circle members)
 // - /user/{id}/circle   (PATCH - updates a user's circle members)
+
+// - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
+
       

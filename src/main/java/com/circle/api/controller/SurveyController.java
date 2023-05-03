@@ -25,24 +25,24 @@ public class SurveyController {
     this.logger = LoggerFactory.getLogger(SurveyController.class);
   }
 
-  @RequestMapping(path = "/user/survey", method = RequestMethod.GET)
-  public Survey getSurvey(@RequestParam String userId, @RequestParam String surveyId) {
-    logger.info("Getting Survey: " + surveyId);
+  // @RequestMapping(path = "/user/survey", method = RequestMethod.GET)
+  // public Survey getSurvey(@RequestParam String userId, @RequestParam String surveyId) {
+  //   logger.info("Getting Survey: " + surveyId);
 
-    Survey survey = surveyService.findByIds(userId,surveyId);
+  //   Survey survey = surveyService.findByIds(userId,surveyId);
 
-    logger.info("Survey: " + survey);
+  //   logger.info("Survey: " + survey);
 
-    return survey;
-  }
+  //   return survey;
+  // }
 
-  @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST)
-  @ResponseBody
-  public Survey getSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
-    logger.info("Adding survey: " + survey);
-    survey.setKey(id);
-    survey.setUserId(id);
-    surveyService.addSurvey(survey);
-    return survey;
-  }
+  // @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST)
+  // @ResponseBody
+  // public Survey getSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
+  //   logger.info("Adding survey: " + survey);
+  //   survey.setKey(id);
+  //   survey.setUserId(id);
+  //   surveyService.addSurvey(survey);
+  //   return survey;
+  // }
 }

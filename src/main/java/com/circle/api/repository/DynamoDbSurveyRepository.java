@@ -32,6 +32,12 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
     }
 
     @Override 
+    public Survey addSurvey(Survey survey) {
+        surveyTable.putItem(survey);
+        return survey;
+    }
+
+    @Override 
     public List<Survey> findAllUserSurveys(String id) {
         QueryConditional skBeginsWithQuery = QueryConditional.sortBeginsWith(
             Key.builder()
@@ -46,12 +52,6 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
                           .collect(Collectors.toList());
     }
 
-    @Override 
-    public Survey addSurvey(Survey survey) {
-        surveyTable.putItem(survey);
-        return survey;
-    }
-
     @Override
     public Survey findUserSurvey(String userId, String surveyId) {
         Key key = Key.builder()
@@ -59,6 +59,15 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
                      .sortValue(Survey.SURVEY_SK_PREFIX + surveyId)
                      .build();
         Survey survey = surveyTable.getItem(key);
+        return survey;
+    }
+
+    @Override
+    public Survey createUserSurvey(String id, Survey survey) {
+        survey.setUserId(id);
+        survey.setPartitionKey(User.USER_PK_PREFIX + id);
+        survey.setSortKey(Survey.SURVEY_SK_PREFIX + survey.getSurveyFormId());
+        surveyTable.putItem(survey);
         return survey;
     }
 

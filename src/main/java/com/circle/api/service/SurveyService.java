@@ -32,4 +32,8 @@ public class SurveyService {
         return surveyRepository.findUserSurvey(userId,surveyId);
     }
 
+    public Survey createUserSurvey(String id, Survey survey) {
+        return surveyRepository.createUserSurvey(id, survey);
+    }
+
 }
