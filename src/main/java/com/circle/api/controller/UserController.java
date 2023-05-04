@@ -15,40 +15,38 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.circle.api.model.Survey;
 import com.circle.api.model.User;
 import com.circle.api.service.SurveyService;
-import com.circle.api.service.UserService;
+import com.circle.api.facade.UserFacade;
 
 @RestController
 @EnableWebMvc
 public class UserController {
 
-  private UserService userService;
+  private UserFacade userFacade;
   private SurveyService surveyService;
   private Logger logger;
 
-  UserController(UserService userService, SurveyService surveyService) {
-    this.userService = userService;
+  UserController(UserFacade userFacade, SurveyService surveyService) {
+    this.userFacade = userFacade;
     this.surveyService = surveyService;
     this.logger = LoggerFactory.getLogger(UserController.class);
   }
 
   @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
-  public User getUser(@PathVariable("id") String id) {
-    logger.info("Getting user: " + id);
+  public UserResponse getUser(@PathVariable("id") String id) {
+    logger.info("Getting USER#: " + id);
 
-    User user = userService.findById(id);
+    UserResponse userResponse = userFacade.findById(id);
 
-    logger.info("User: " + user);
+    logger.info("User: " + userResponse);
 
-    return user;
+    return userResponse;
   }
 
   @RequestMapping(path = "/user", method = RequestMethod.POST)
-  public User createUser(@RequestBody User user) {
-    logger.info("Creating user: " + user);
+  public UserResponse createUser(@RequestBody User user) {
+    logger.info("Creating user...");
 
-    userService.createUser(user);
-
-    return user;
+    return userFacade.createUser(user);
   }
 
   @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.GET) 

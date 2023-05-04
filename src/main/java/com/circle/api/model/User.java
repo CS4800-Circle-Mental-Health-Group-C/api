@@ -38,7 +38,7 @@ public class User extends DynamoDbBase{
   //   return getSortKey().substring(USER_PK_PREFIX.length());
   // }
 
-  public void setId(String id) {
+  public void setKey(String id) {
     setPartitionKey(UserKeyBuilder.makePartitionKey(userId));
     setSortKey(UserKeyBuilder.makeSortKey(userId));
   }

@@ -18,6 +18,7 @@ public class UserService {
   }
 
   public User createUser(User user) {
+    user.setKey(user.getUserId());
     return userRepository.createUser(user);
   }
 }
