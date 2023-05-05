@@ -13,36 +13,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.circle.api.model.Survey;
 import com.circle.api.service.SurveyService;
+import com.circle.api.facade.SurveyFacade;
 
 @RestController
 public class SurveyController {
-    
+  
+  private SurveyFacade surveyFacade;
   private SurveyService surveyService;
   private Logger logger;
 
-  SurveyController(SurveyService surveyService) {
+  SurveyController(SurveyService surveyService, SurveyFacade surveyFacade) {
     this.surveyService = surveyService;
+    this.surveyFacade = surveyFacade;
     this.logger = LoggerFactory.getLogger(SurveyController.class);
   }
 
-  // @RequestMapping(path = "/user/survey", method = RequestMethod.GET)
-  // public Survey getSurvey(@RequestParam String userId, @RequestParam String surveyId) {
-  //   logger.info("Getting Survey: " + surveyId);
+  @RequestMapping(path = "/survey/{sid}", method = RequestMethod.GET)
+  public SurveyResponse findSurveyById(@PathVariable("sid") String surveyId) {
+    logger.info("Getting SURVEY#" + surveyId);
 
-  //   Survey survey = surveyService.findByIds(userId,surveyId);
+    SurveyResponse surveyResponse = surveyFacade.findSurveyById(surveyId);
 
-  //   logger.info("Survey: " + survey);
+    logger.info("Survey: " + surveyResponse);
 
-  //   return survey;
-  // }
+    return surveyResponse;
+  }
 
-  // @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST)
-  // @ResponseBody
-  // public Survey getSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
-  //   logger.info("Adding survey: " + survey);
-  //   survey.setKey(id);
-  //   survey.setUserId(id);
-  //   surveyService.addSurvey(survey);
-  //   return survey;
-  // }
+  @RequestMapping(path = "/survey", method = RequestMethod.POST)
+  public SurveyResponse addSurvey(@RequestBody Survey survey) {
+    
+    SurveyResponse surveyResponse = surveyFacade.addSurvey(survey);
+
+    logger.info("Adding survey: " + surveyResponse);
+    
+    return surveyResponse;
+  }
 }

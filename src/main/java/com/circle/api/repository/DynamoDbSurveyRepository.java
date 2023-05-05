@@ -22,9 +22,9 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
     }
 
     @Override
-    public Survey findByUserIdSurveyId(String userId, String surveyId) {
+    public Survey findSurveyById(String surveyId) {
         Key key = Key.builder()
-                     .partitionValue(Survey.SurveyKeyBuilder.makePartitionKey(userId))
+                     .partitionValue(Survey.SurveyKeyBuilder.makePartitionKey(surveyId))
                      .sortValue(Survey.SurveyKeyBuilder.makeSortKey(surveyId))
                      .build();
         Survey survey = surveyTable.getItem(key);

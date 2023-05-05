@@ -16,11 +16,13 @@ public class SurveyService {
         this.surveyRepository = surveyRepository;
     }
 
-    public Survey findByIds(String userId, String surveyId) {
-        return surveyRepository.findByUserIdSurveyId(userId,surveyId);
+    public Survey findSurveyById(String surveyId) {
+        return surveyRepository.findSurveyById(surveyId);
     }
 
     public Survey addSurvey(Survey survey) {
+        survey.setPartitionKey(Survey.SURVEY_PK_PREFIX + survey.getSurveyFormId());
+        survey.setSortKey(Survey.SURVEY_SK_PREFIX + survey.getSurveyFormId());
         return surveyRepository.addSurvey(survey);
     }
 
