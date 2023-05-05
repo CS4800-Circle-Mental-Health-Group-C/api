@@ -1,6 +1,7 @@
 package com.circle.api.facade;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ public class UserFacade {
         return surveyService.findAllUserSurveys(id)
                             .stream()
                             .map(UserSurveyResponse::from)
-                            .toList();
+                            .collect(Collectors.toList());
     }
 
     public UserSurveyResponse findUserSurvey(String userId, String surveyId) {
