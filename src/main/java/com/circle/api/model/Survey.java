@@ -1,20 +1,22 @@
 package com.circle.api.model;
 
+import java.util.List;
 import java.util.Map;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbIgnore;
 
 @DynamoDbBean
 public class Survey extends DynamoDbBase {
-  public static final String SURVEY_PK_PREFIX = "USER#";
+  public static final String SURVEY_PK_PREFIX = "SURVEY#";
   public static final String SURVEY_SK_PREFIX = "SURVEY#";
 
   private String userId; 
   private String surveyFormId;
   private String dateTaken;
-  private Map<String,String> response;
+  private List<String> surveyQuestions;
+  private List<String> surveyAnswers; 
+  private Map<String,String> surveyResponses;
 
   public Survey() {};
 
@@ -22,7 +24,9 @@ public class Survey extends DynamoDbBase {
     this.userId = surveyBuilder.userId; 
     this.surveyFormId = surveyBuilder.surveyFormId;
     this.dateTaken = surveyBuilder.dateTaken;
-    this.response = surveyBuilder.response;
+    this.surveyQuestions = surveyBuilder.surveyQuestions;
+    this.surveyAnswers = surveyBuilder.surveyAnswers;
+    this.surveyResponses = surveyBuilder.surveyResponses;
   }
 
   public void setKey(String id) {
@@ -57,13 +61,31 @@ public class Survey extends DynamoDbBase {
     this.dateTaken = dateTaken;
   }
 
-  @DynamoDbAttribute("Response")
-  public Map<String,String> getResponse() {
-    return this.response;
+  @DynamoDbAttribute("Survey Questions")
+  public List<String> getSurveyQuestions() {
+    return this.surveyQuestions;
   }
 
-  public void setResponse(Map<String,String> response) {
-    this.response = response;
+  public void setSurveyQuestions(List<String> surveyQuestions) {
+    this.surveyQuestions = surveyQuestions;
+  }
+
+  @DynamoDbAttribute("Survey Answers")
+  public List<String> getSurveyAnswers() {
+    return this.surveyAnswers;
+  }
+
+  public void setSurveyAnswers(List<String> surveyAnswers) {
+    this.surveyAnswers = surveyAnswers;
+  }
+
+  @DynamoDbAttribute("Survey Responses")
+  public Map<String,String> getSurveyResponses() {
+    return this.surveyResponses;
+  }
+
+  public void setSurveyResponses(Map<String,String> surveyResponses) {
+    this.surveyResponses = surveyResponses;
   }
 
   public static SurveyBuilder builder() {
@@ -74,7 +96,9 @@ public class Survey extends DynamoDbBase {
     private String userId; 
     private String surveyFormId;
     private String dateTaken;
-    private Map<String,String> response;
+    private List<String> surveyQuestions;
+    private List<String> surveyAnswers; 
+    private Map<String,String> surveyResponses;
     private String partitionKey;
     private String sortKey;
 
@@ -90,16 +114,24 @@ public class Survey extends DynamoDbBase {
         this.dateTaken = dateTaken;
         return this;
     }
-    public SurveyBuilder response(Map<String,String> response) {
-        this.response = response; 
+    public SurveyBuilder surveyQuestions(List<String> surveyQuestions) {
+        this.surveyQuestions = surveyQuestions; 
+        return this;
+    }
+    public SurveyBuilder surveyAnswers(List<String> surveyAnswers) {
+        this.surveyAnswers = surveyAnswers; 
+        return this;
+    }
+    public SurveyBuilder surveyResponses(Map<String,String> surveyResponses) {
+        this.surveyResponses = surveyResponses; 
         return this;
     }
     public SurveyBuilder partitionKey(String partitionKey) {
-        this.partitionKey = SurveyKeyBuilder.makePartitionKey(partitionKey);
+        this.partitionKey = partitionKey;
         return this;
     }
     public SurveyBuilder sortKey(String sortKey) {
-        this.sortKey = SurveyKeyBuilder.makeSortKey(sortKey);
+        this.sortKey = sortKey;
         return this;
     }
     public Survey build() {

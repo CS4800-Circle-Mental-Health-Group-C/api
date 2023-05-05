@@ -50,29 +50,29 @@ public class UserController {
   }
 
   @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.GET) 
-  public List<Survey> findAllUserSurveys(@PathVariable("id") String id) {
+  public List<UserSurveyResponse> findAllUserSurveys(@PathVariable("id") String id) {
 
     logger.info("Getting user surveys");
 
-    return surveyService.findAllUserSurveys(id);
+    return userFacade.findAllUserSurveys(id);
 
   }
 
   @RequestMapping(path = "/user/{uid}/survey/{sid}", method = RequestMethod.GET) 
-  public Survey findUserSurvey(@PathVariable("uid") String userId, @PathVariable("sid") String surveyId) {
+  public UserSurveyResponse findUserSurvey(@PathVariable("uid") String userId, @PathVariable("sid") String surveyId) {
 
     logger.info("Getting USER#" + userId + " SURVEY#" + surveyId);
 
-    return surveyService.findUserSurvey(userId,surveyId);
+    return userFacade.findUserSurvey(userId,surveyId);
 
   }
 
   @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST) 
-  public Survey createUserSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
+  public UserSurveyResponse createUserSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
 
-    logger.info("Creating SURVEY#" + id + " response under USER#" + survey.getUserId());
+    logger.info("Creating SURVEY#" + survey.getSurveyFormId() + " response under USER#" + id);
 
-    return surveyService.createUserSurvey(id,survey);
+    return userFacade.createUserSurvey(id,survey);
 
   }
 
@@ -87,7 +87,6 @@ public class UserController {
 // - /user/{id}/circle   (GET - gets a user's circle members)
 // - /user/{id}/circle   (POST - add/create user's circle members)
 // - /user/{id}/circle   (PATCH - updates a user's circle members)
-
 // - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
 
       

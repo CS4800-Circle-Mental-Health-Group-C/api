@@ -1,10 +1,7 @@
 package com.circle.api.model;
 
-
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbIgnore;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -33,14 +30,9 @@ public class User extends DynamoDbBase{
     this.sortKey = userBuilder.sortKey;
   }
   
-  // @DynamoDbIgnore
-  // public String getId() {
-  //   return getSortKey().substring(USER_PK_PREFIX.length());
-  // }
-
   public void setKey(String id) {
-    setPartitionKey(UserKeyBuilder.makePartitionKey(userId));
-    setSortKey(UserKeyBuilder.makeSortKey(userId));
+    setPartitionKey(UserKeyBuilder.makePartitionKey(id));
+    setSortKey(UserKeyBuilder.makeSortKey(id));
   }
 
   // Getters and Setters
@@ -124,22 +116,14 @@ public class User extends DynamoDbBase{
       this.dateAdded = dateAdded;
       return this;
     }
-
     public UserBuilder partitionKey(String partitionKey) {
       this.partitionKey = partitionKey;
       return this;
     }
-
     public UserBuilder sortKey(String sortKey) {
       this.sortKey = sortKey;
       return this;
-    }
-
-    // public UserBuilder id(String id) {
-    //   this.partitionKey = UserKeyBuilder.makePartitionKey(id);
-    //   return this;
-    // }
-    
+    } 
     public User build() {
       return new User(this);
     }
