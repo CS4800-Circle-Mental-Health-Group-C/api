@@ -1,5 +1,7 @@
 package com.circle.api.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.circle.api.model.Circle;
@@ -15,8 +17,12 @@ public class CircleService {
         this.circleRepository = circleRepository;
     }
 
-    public Circle findMemberInfoByIds(String userId, String circleMemberId) {
-        return circleRepository.findMemberInfoByIds(userId, circleMemberId);
-      }
+    public Circle getUserCircle(String userId, String circleId) {
+        return circleRepository.getUserCircle(userId, circleId);
+    }
+
+    public List<Circle> getCircleMembers(String circleId) {
+        return circleRepository.getCircleMembers(circleId);
+    }
     
 }

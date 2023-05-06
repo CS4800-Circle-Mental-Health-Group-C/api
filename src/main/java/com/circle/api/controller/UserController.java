@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.circle.api.model.Circle;
 import com.circle.api.model.Survey;
 import com.circle.api.model.User;
+import com.circle.api.service.CircleService;
 import com.circle.api.service.SurveyService;
 import com.circle.api.facade.UserFacade;
 
@@ -23,11 +25,13 @@ public class UserController {
 
   private UserFacade userFacade;
   private SurveyService surveyService;
+  private CircleService circleService;
   private Logger logger;
 
-  UserController(UserFacade userFacade, SurveyService surveyService) {
+  UserController(UserFacade userFacade, SurveyService surveyService, CircleService circleService) {
     this.userFacade = userFacade;
     this.surveyService = surveyService;
+    this.circleService = circleService;
     this.logger = LoggerFactory.getLogger(UserController.class);
   }
 
@@ -75,12 +79,20 @@ public class UserController {
     return userFacade.createUserSurvey(id,survey);
 
   }
-
-
   
+  // Change if a user can be in multiple circles
+  @RequestMapping(path = "/user/{uid}/circle/{cid}", method = RequestMethod.GET)
+  public CircleMemberResponse getUserCircle(@PathVariable("uid") String userId, @PathVariable("cid") String circleId) {
+    logger.info("Getting User Circle");
 
+    CircleMemberResponse circleMemberResponse = userFacade.getUserCircle(userId,circleId);
+
+    logger.info("User Circle Info: " + circleMemberResponse);
+
+    return circleMemberResponse;
+  }
 }
-// - /user?id=queryParam (GET - gets a user) 
+// - /user/{id}          (GET - gets a user) 
 // - /user               (POST - creates a new user)
 // - /user/{id}/survey   (GET - gets a specified user's surveys)
 // - /user/{id}/survey   (POST - add/create survey response for a user)

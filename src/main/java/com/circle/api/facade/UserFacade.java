@@ -5,12 +5,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.circle.api.controller.CircleMemberResponse;
 import com.circle.api.controller.UserRequest;
 import com.circle.api.controller.UserResponse;
 import com.circle.api.controller.UserSurveyResponse;
 import com.circle.api.controller.UserSurveyRequest;
+import com.circle.api.model.Circle;
 import com.circle.api.model.Survey;
 import com.circle.api.model.User;
+import com.circle.api.service.CircleService;
 import com.circle.api.service.SurveyService;
 import com.circle.api.service.UserService;
 
@@ -19,10 +22,12 @@ public class UserFacade {
 
     private final UserService userService; 
     private final SurveyService surveyService;
+    private final CircleService circleService;
 
-    public UserFacade(UserService userService, SurveyService surveyService)  {
+    public UserFacade(UserService userService, SurveyService surveyService, CircleService circleService)  {
         this.userService = userService;
         this.surveyService = surveyService;
+        this.circleService = circleService;
     }
 
     public UserResponse findById(String id) {
@@ -53,6 +58,10 @@ public class UserFacade {
         Survey createdUserSurvey = surveyService.createUserSurvey(id, userSurveyToCreate);
         return UserSurveyResponse.from(createdUserSurvey);
     }
- 
+    
+    public CircleMemberResponse getUserCircle(String userId, String circleId) {
+        Circle circle = circleService.getUserCircle(userId, circleId);
+        return CircleMemberResponse.from(circle);
+    }
     
 }
