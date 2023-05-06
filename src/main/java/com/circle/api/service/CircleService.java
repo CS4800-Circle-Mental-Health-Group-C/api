@@ -17,12 +17,15 @@ public class CircleService {
         this.circleRepository = circleRepository;
     }
 
-    public Circle getUserCircle(String userId, String circleId) {
-        return circleRepository.getUserCircle(userId, circleId);
+    public Circle getCircleMember(String userId, String email) {
+        return circleRepository.getCircleMember(userId, email);
     }
 
-    public List<Circle> getCircleMembers(String circleId) {
-        return circleRepository.getCircleMembers(circleId);
+    public List<Circle> getUserCircle(String userId) {
+        return circleRepository.getUserCircle(userId);
     }
     
+    public Circle addCircleMember(String userId, int circleSize) {
+        return circleRepository.addCircleMember(userId,circleSize);
+    }
 }

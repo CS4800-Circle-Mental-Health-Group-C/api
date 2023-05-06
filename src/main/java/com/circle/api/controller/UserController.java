@@ -80,25 +80,43 @@ public class UserController {
 
   }
   
-  // Change if a user can be in multiple circles
-  @RequestMapping(path = "/user/{uid}/circle/{cid}", method = RequestMethod.GET)
-  public CircleMemberResponse getUserCircle(@PathVariable("uid") String userId, @PathVariable("cid") String circleId) {
-    logger.info("Getting User Circle");
+  @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.GET)
+  public CircleMemberResponse getCircleMember(@PathVariable("uid") String userId, @PathVariable("email") String email) {
+    logger.info("Getting Circle Member Info");
 
-    CircleMemberResponse circleMemberResponse = userFacade.getUserCircle(userId,circleId);
+    CircleMemberResponse circleMember = userFacade.getCircleMember(userId,email);
 
-    logger.info("User Circle Info: " + circleMemberResponse);
+    logger.info("Member Info: " + circleMember);
 
-    return circleMemberResponse;
+    return circleMember;
   }
+
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.GET) 
+  public List<CircleMemberResponse> getUserCircle(@PathVariable("uid") String userId) {
+     logger.info("Getting Circle Members from USER#" + userId + " Circle"); 
+
+     List<CircleMemberResponse> circleMembers = userFacade.getUserCircle(userId);
+
+     return circleMembers;
+  }
+
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST) 
+  public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId) {
+    logger.info("Create Circle Member"); 
+
+    return userFacade.addCircleMember(userId);
+  }
+
 }
-// - /user/{id}          (GET - gets a user) 
-// - /user               (POST - creates a new user)
-// - /user/{id}/survey   (GET - gets a specified user's surveys)
-// - /user/{id}/survey   (POST - add/create survey response for a user)
-// - /user/{id}/circle   (GET - gets a user's circle members)
-// - /user/{id}/circle   (POST - add/create user's circle members)
-// - /user/{id}/circle   (PATCH - updates a user's circle members)
+// - /user/{id}                  (GET - gets a user) 
+// - /user                       (POST - creates a new user)
+// - /user/{id}/survey           (GET - gets a specified user's surveys)
+// - /user/{id}/survey           (POST - add/create survey response for a user)
+// - /user/{id}/circle/{email}   (GET - gets a specific user circle member)
+// - /user/{id}/circle           (GET - gets all user circle members)
+// - /user/{id}/circle           (POST - add a member to user circle)
+// - /user/{id}/circle           (PATCH - update a member in the user circle)
+
 // - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
 
       

@@ -124,16 +124,13 @@ public class Circle extends DynamoDbBase{
             this.partitionKey = partitionKey;
             return this;
         }
-      
         public CircleBuilder sortKey(String sortKey) {
             this.sortKey = sortKey;
             return this;
         }
-
         public Circle build() {
           return new Circle(this);
         }
-
     }
 
     public static class CircleKeyBuilder {

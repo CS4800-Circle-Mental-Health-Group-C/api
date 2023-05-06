@@ -59,9 +59,21 @@ public class UserFacade {
         return UserSurveyResponse.from(createdUserSurvey);
     }
     
-    public CircleMemberResponse getUserCircle(String userId, String circleId) {
-        Circle circle = circleService.getUserCircle(userId, circleId);
+    public CircleMemberResponse getCircleMember(String userId, String email) {
+        Circle circle = circleService.getCircleMember(userId, email);
         return CircleMemberResponse.from(circle);
     }
+
+    public List<CircleMemberResponse> getUserCircle(String userId) {
+        List<Circle> userCircle = circleService.getUserCircle(userId);
+        return userCircle.stream()
+                         .map(CircleMemberResponse::from)
+                         .collect(Collectors.toList());
+    }
     
+    public CircleMemberResponse addCircleMember(String userId) {
+        List<Circle> userCircle = circleService.getUserCircle(userId);
+        Circle circle = circleService.addCircleMember(userId,userCircle.size());
+        return CircleMemberResponse.from(circle);
+    }
 }

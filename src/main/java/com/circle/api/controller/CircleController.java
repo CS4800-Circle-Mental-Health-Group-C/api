@@ -1,5 +1,7 @@
 package com.circle.api.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +26,14 @@ public class CircleController {
     this.logger = LoggerFactory.getLogger(CircleController.class);
   }
 
-  @RequestMapping(path = "/user/circle", method = RequestMethod.GET)
-  public Circle getCircleMember(@RequestParam String userId, @RequestParam String circleMemberId) {
-    logger.info("Getting Circle Member Info");
+  
+  // @RequestMapping(path = "/circle/{id}", method = RequestMethod.GET)
+  // public List<Circle> getCircleMembers(@PathVariable("id") String circleId) {
+  //   logger.info("Getting Circle Members for CIRCLE#" + circleId);
 
-    Circle circle = circleService.findMemberInfoByIds(userId,circleMemberId);
+  //   List<Circle> circleMembers = circleService.getCircleMembers(circleId);
 
-    logger.info("Circle Member Info: " + circle);
-
-    return circle;
-  }
+  //   return circleMembers;
+  // }
 
 }

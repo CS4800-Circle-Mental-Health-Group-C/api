@@ -6,7 +6,9 @@ import com.circle.api.model.Circle;
 
 public interface CircleRepository {
     
-    public Circle getUserCircle(String userId, String circleId);
+    public Circle getCircleMember(String userId, String email);
 
-    public List<Circle> getCircleMembers(String circleId);
+    public List<Circle> getUserCircle(String userId);
+
+    public Circle addCircleMember(String userId, int circleSize);
 }
