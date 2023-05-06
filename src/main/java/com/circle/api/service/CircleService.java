@@ -25,7 +25,7 @@ public class CircleService {
         return circleRepository.getUserCircle(userId);
     }
     
-    public Circle addCircleMember(String userId, int circleSize) {
-        return circleRepository.addCircleMember(userId,circleSize);
+    public Circle addCircleMember(String userId,Circle circle,int circleSize) {
+        return circleRepository.addCircleMember(userId,circle,circleSize);
     }
 }

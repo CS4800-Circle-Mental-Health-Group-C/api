@@ -11,7 +11,9 @@ import com.circle.api.model.User;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Expression;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 @Repository
 public class DynamoDbCircleRepository implements CircleRepository{
@@ -50,20 +52,40 @@ public class DynamoDbCircleRepository implements CircleRepository{
                           .collect(Collectors.toList());
     }
 
+    // Functional? Needs More Testing
     @Override
-    public Circle addCircleMember(String userId, int circleSize) {
+    public Circle addCircleMember(String userId, Circle circle, int circleSize) {
         if(circleSize >= 5) {
+            // Placeholder
             return new Circle();
         }
         else 
-        {
-            Expression myexp = Expression.builder()
-                                         .expression("")
-                                         .putExpressionName("","")
-                                         //.putExpressionValue("")
+        {   
+            circle.setCircleMemberId(circle.getCircleMemberId());
+            circle.setUserId(userId);
+            circle.setPartitionKey(User.USER_PK_PREFIX + userId);
+            circle.setSortKey(Circle.CIRCLE_SK_PREFIX + circle.getEmail());
+
+            AttributeValue att = AttributeValue.builder()
+                                               .s(circle.getEmail())
+                                               .build();
+
+            // Not entirely how this works... Or if it really compares the emails...
+            Expression myexp = Expression.builder() 
+                                         .expression("#email <> :email")
+                                         .putExpressionName("#email","Email")
+                                         .putExpressionValue(":email", att)
                                          .build();
+
+            PutItemEnhancedRequest<Circle> enhancedRequest = 
+                                    PutItemEnhancedRequest.builder(Circle.class)
+                                                          .conditionExpression(myexp)
+                                                          .item(circle)
+                                                          .build();
+            
+            circleTable.putItem(enhancedRequest);
+            return circle;  
         }
-        return null;
     }
     
 }

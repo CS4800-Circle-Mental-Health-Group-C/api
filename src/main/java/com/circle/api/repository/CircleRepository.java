@@ -10,5 +10,5 @@ public interface CircleRepository {
 
     public List<Circle> getUserCircle(String userId);
 
-    public Circle addCircleMember(String userId, int circleSize);
+    public Circle addCircleMember(String userId, Circle circle, int circleSize);
 }

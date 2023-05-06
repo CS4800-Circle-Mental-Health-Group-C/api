@@ -71,9 +71,9 @@ public class UserFacade {
                          .collect(Collectors.toList());
     }
     
-    public CircleMemberResponse addCircleMember(String userId) {
+    public CircleMemberResponse addCircleMember(String userId, Circle circle) {
         List<Circle> userCircle = circleService.getUserCircle(userId);
-        Circle circle = circleService.addCircleMember(userId,userCircle.size());
-        return CircleMemberResponse.from(circle);
+        Circle circleMember = circleService.addCircleMember(userId,circle,userCircle.size());
+        return CircleMemberResponse.from(circleMember);
     }
 }
