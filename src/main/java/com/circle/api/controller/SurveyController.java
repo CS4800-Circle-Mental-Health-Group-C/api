@@ -28,6 +28,7 @@ public class SurveyController {
     this.logger = LoggerFactory.getLogger(SurveyController.class);
   }
 
+  // GET a specific survey by its ID
   @RequestMapping(path = "/survey/{sid}", method = RequestMethod.GET)
   public SurveyResponse findSurveyById(@PathVariable("sid") String surveyId) {
     logger.info("Getting SURVEY#" + surveyId);
@@ -39,6 +40,7 @@ public class SurveyController {
     return surveyResponse;
   }
 
+  // POST a survey using the RequestBody
   @RequestMapping(path = "/survey", method = RequestMethod.POST)
   public SurveyResponse addSurvey(@RequestBody Survey survey) {
     

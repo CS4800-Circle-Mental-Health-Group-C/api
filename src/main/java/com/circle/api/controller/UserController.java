@@ -35,6 +35,7 @@ public class UserController {
     this.logger = LoggerFactory.getLogger(UserController.class);
   }
 
+  // GET a user by ID
   @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
   public UserResponse getUser(@PathVariable("id") String id) {
     logger.info("Getting USER#: " + id);
@@ -46,6 +47,7 @@ public class UserController {
     return userResponse;
   }
 
+  // POST a user using the RequestBody
   @RequestMapping(path = "/user", method = RequestMethod.POST)
   public UserResponse createUser(@RequestBody User user) {
     logger.info("Creating user...");
@@ -53,6 +55,7 @@ public class UserController {
     return userFacade.createUser(user);
   }
 
+  // GET all surveys taken by a user
   @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.GET) 
   public List<UserSurveyResponse> findAllUserSurveys(@PathVariable("id") String id) {
 
@@ -62,6 +65,7 @@ public class UserController {
 
   }
 
+  // GET a specific survey taken by a user
   @RequestMapping(path = "/user/{uid}/survey/{sid}", method = RequestMethod.GET) 
   public UserSurveyResponse findUserSurvey(@PathVariable("uid") String userId, @PathVariable("sid") String surveyId) {
 
@@ -71,6 +75,7 @@ public class UserController {
 
   }
 
+  // POST a survey response taken by a user
   @RequestMapping(path = "/user/{id}/survey", method = RequestMethod.POST) 
   public UserSurveyResponse createUserSurvey(@PathVariable("id") String id, @RequestBody Survey survey) {
 
@@ -80,6 +85,7 @@ public class UserController {
 
   }
   
+  // GET info from a specific circle member in a user circle
   @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.GET)
   public CircleMemberResponse getCircleMember(@PathVariable("uid") String userId, @PathVariable("email") String email) {
     logger.info("Getting Circle Member Info");
@@ -91,6 +97,7 @@ public class UserController {
     return circleMember;
   }
 
+  // GET info from all members in a user circle
   @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.GET) 
   public List<CircleMemberResponse> getUserCircle(@PathVariable("uid") String userId) {
      logger.info("Getting Circle Members from USER#" + userId + " Circle"); 
@@ -100,11 +107,12 @@ public class UserController {
      return circleMembers;
   }
 
+  // POST a new member in the user circle (if circle size < 5 and member.email does not exist)
   @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST) 
-  public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId) {
+  public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
     logger.info("Create Circle Member"); 
 
-    return userFacade.addCircleMember(userId);
+    return userFacade.addCircleMember(userId, circle);
   }
 
 }
