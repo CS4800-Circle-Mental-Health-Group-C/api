@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import javax.naming.LimitExceededException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.circle.api.model.Circle;
 import com.circle.api.model.User;
@@ -59,11 +61,15 @@ public class DynamoDbCircleRepository implements CircleRepository {
 
     @Override
     public Optional<Circle> addCircleMember(String userId, Circle circle, int circleSize) {
-          
-            circle.setCircleMemberId(circle.getCircleMemberId());
-            circle.setUserId(userId);
-            circle.setPartitionKey(User.USER_PK_PREFIX + userId);
-            circle.setSortKey(Circle.CIRCLE_SK_PREFIX + circle.getEmail());
+      
+      if(circleSize >= 5) {
+        return Optional.empty();
+      }
+      
+      circle.setCircleMemberId(circle.getCircleMemberId());
+      circle.setUserId(userId);
+      circle.setPartitionKey(User.USER_PK_PREFIX + userId);
+      circle.setSortKey(Circle.CIRCLE_SK_PREFIX + circle.getEmail());
 
       AttributeValue att = AttributeValue.builder().s(circle.getEmail()).build();
 
@@ -80,8 +86,14 @@ public class DynamoDbCircleRepository implements CircleRepository {
                                                           .item(circle)
                                                           .build();
             
-            circleTable.putItem(enhancedRequest);
-            return getCircleMember(userId,circle.getEmail());  
+      try { 
+        circleTable.putItem(enhancedRequest);
+      }
+      catch(RuntimeException re) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Circle Member Already Added");
+      }
+
+      return getCircleMember(userId,circle.getEmail());  
     }
     
     @Override
