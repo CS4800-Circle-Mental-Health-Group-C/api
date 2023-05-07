@@ -104,12 +104,29 @@ public class UserController {
   }
 
   // POST a new member in the user circle (if circle size < 5 and member.email does not exist)
-  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST)
-  public CircleMemberResponse addCircleMember(
-      @PathVariable("uid") String userId, @RequestBody Circle circle) {
-    logger.info("Create Circle Member");
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST) 
+  public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
 
-    return userFacade.addCircleMember(userId, circle);
+    int circleSize = userFacade.getUserCircle(userId).size();
+    logger.info("Creating Circle Member"); 
+    return userFacade.addCircleMember(userId, circle, circleSize);
+  
+  }
+
+  // DELETE a member in the user circle
+  @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.DELETE)
+  public CircleMemberResponse removeCircleMember(@PathVariable("uid") String userId, @PathVariable("email") String email) {
+    logger.info("Deleting Circle Member"); 
+
+    return userFacade.removeCircleMember(userId,email);
+  }
+
+  // PATCH a member in the user circle using the RequestBody
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.PATCH) 
+  public CircleMemberResponse updateCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
+
+    logger.info("Updating Circle Member");
+    return userFacade.updateCircleMember(userId, circle);
   }
 }
 // - /user/{id}                  (GET - gets a user)
@@ -120,5 +137,7 @@ public class UserController {
 // - /user/{id}/circle           (GET - gets all user circle members)
 // - /user/{id}/circle           (POST - add a member to user circle)
 // - /user/{id}/circle           (PATCH - update a member in the user circle)
+// - /user/{id}/circle/{email}   (DELETE - remove a member from user circle)
 
 // - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
+

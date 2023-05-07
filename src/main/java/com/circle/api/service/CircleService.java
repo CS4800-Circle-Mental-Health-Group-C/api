@@ -28,4 +28,12 @@ public class CircleService {
     public Circle addCircleMember(String userId,Circle circle,int circleSize) {
         return circleRepository.addCircleMember(userId,circle,circleSize);
     }
+
+    public Circle removeCircleMember(String userId, String email) {
+        return circleRepository.removeCircleMember(userId, email);
+    }
+
+    public Circle updateCircleMember(String userId, Circle circle) {
+        return circleRepository.updateCircleMember(userId, circle);
+    }
 }
