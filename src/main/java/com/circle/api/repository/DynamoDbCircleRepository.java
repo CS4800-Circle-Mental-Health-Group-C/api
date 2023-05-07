@@ -1,6 +1,7 @@
 package com.circle.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.naming.LimitExceededException;
@@ -26,15 +27,13 @@ import org.slf4j.LoggerFactory;
 public class DynamoDbCircleRepository implements CircleRepository {
 
   private final DynamoDbTable<Circle> circleTable;
-  private Logger logger; 
 
   public DynamoDbCircleRepository(DynamoDbTable<Circle> circleTable) {
     this.circleTable = circleTable;
-    this.logger = LoggerFactory.getLogger(DynamoDbCircleRepository.class);
   }
 
   @Override
-  public Circle getCircleMember(String userId, String email) {
+  public Optional<Circle> getCircleMember(String userId, String email) {
     Key key =
         Key.builder()
             .partitionValue(User.USER_PK_PREFIX + userId)
@@ -42,7 +41,7 @@ public class DynamoDbCircleRepository implements CircleRepository {
             .build();
 
     Circle circle = circleTable.getItem(key);
-    return circle;
+    return Optional.ofNullable(circle);
   }
 
   @Override
@@ -58,9 +57,8 @@ public class DynamoDbCircleRepository implements CircleRepository {
     return circleTable.query(skBeginsWithQuery).items().stream().collect(Collectors.toList());
   }
 
-    // Functional? Needs More Testing
     @Override
-    public Circle addCircleMember(String userId, Circle circle, int circleSize) {
+    public Optional<Circle> addCircleMember(String userId, Circle circle, int circleSize) {
           
             circle.setCircleMemberId(circle.getCircleMemberId());
             circle.setUserId(userId);
@@ -83,11 +81,11 @@ public class DynamoDbCircleRepository implements CircleRepository {
                                                           .build();
             
             circleTable.putItem(enhancedRequest);
-            return circle;  
+            return getCircleMember(userId,circle.getEmail());  
     }
     
     @Override
-    public Circle removeCircleMember(String userId, String email) {
+    public Optional<Circle> removeCircleMember(String userId, String email) {
 
       Key key = 
           Key.builder()
@@ -110,7 +108,7 @@ public class DynamoDbCircleRepository implements CircleRepository {
                                        .key(key)
                                        .build();
 
-      return circleTable.deleteItem(enhancedRequest);  
+      return Optional.ofNullable(circleTable.deleteItem(enhancedRequest));  
     }
 
     @Override
