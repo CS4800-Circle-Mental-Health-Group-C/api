@@ -1,4 +1,4 @@
-package com.circle.api.controller;
+package com.circle.api.model.response;
 
 import com.circle.api.model.Circle;
 

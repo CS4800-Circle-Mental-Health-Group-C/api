@@ -9,7 +9,7 @@ import com.circle.api.model.User;
 @EnableScan
 public interface UserRepository{
 
-    User findByUserId(String id);
+    Optional<User> findByUserId(String id);
 
     User createUser(User user);
 }

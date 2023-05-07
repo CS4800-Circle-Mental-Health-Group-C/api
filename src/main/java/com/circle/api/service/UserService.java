@@ -1,7 +1,8 @@
 package com.circle.api.service;
 
-import com.circle.api.model.User;
 import org.springframework.stereotype.Service;
+
+import com.circle.api.model.User;
 import com.circle.api.repository.UserRepository;
 
 @Service
@@ -14,7 +15,9 @@ public class UserService {
   }
 
   public User findById(String id) {
-    return userRepository.findByUserId(id);
+    return userRepository
+        .findByUserId(id)
+        .orElseThrow(() -> new RuntimeException("User not found"));
   }
 
   public User createUser(User user) {

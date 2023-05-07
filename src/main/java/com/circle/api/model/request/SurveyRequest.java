@@ -1,4 +1,4 @@
-package com.circle.api.controller;
+package com.circle.api.model.request;
 
 import com.circle.api.model.Survey;
 
