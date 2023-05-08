@@ -1,10 +1,11 @@
 package com.circle.api.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.naming.LimitExceededException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,6 @@ import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.UpdateItemEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Repository
 public class DynamoDbCircleRepository implements CircleRepository {
@@ -60,13 +58,27 @@ public class DynamoDbCircleRepository implements CircleRepository {
   }
 
     @Override
-    public Optional<Circle> addCircleMember(String userId, Circle circle, int circleSize) {
+    public Optional<Circle> addCircleMember(String userId, Circle circle) {
       
-      if(circleSize >= 5) {
+      List<Circle> userCircle = getUserCircle(userId);
+
+      if(userCircle.size() >= 5) {
         return Optional.empty();
       }
-      
-      circle.setCircleMemberId(circle.getCircleMemberId());
+
+      ListIterator<Circle> it = userCircle.listIterator();
+      Map<String,String> memberIds = new HashMap<String,String>();
+      while(it.hasNext()) {
+        memberIds.put(it.next().getCircleMemberId(),"");
+      }
+
+      for(int i = 1; i <= 5; i++) {
+        if(memberIds.get(Integer.toString(i)) == null) {
+          circle.setCircleMemberId(Integer.toString(i));
+          break;
+        }
+      }
+
       circle.setUserId(userId);
       circle.setPartitionKey(User.USER_PK_PREFIX + userId);
       circle.setSortKey(Circle.CIRCLE_SK_PREFIX + circle.getEmail());
@@ -80,11 +92,11 @@ public class DynamoDbCircleRepository implements CircleRepository {
               .putExpressionValue(":email", att)
               .build();
 
-            PutItemEnhancedRequest<Circle> enhancedRequest = 
-                                    PutItemEnhancedRequest.builder(Circle.class)
-                                                          .conditionExpression(myexp)
-                                                          .item(circle)
-                                                          .build();
+      PutItemEnhancedRequest<Circle> enhancedRequest = 
+          PutItemEnhancedRequest.builder(Circle.class)
+                                .conditionExpression(myexp)
+                                .item(circle)
+                                .build();
             
       try { 
         circleTable.putItem(enhancedRequest);

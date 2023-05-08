@@ -1,7 +1,6 @@
 package com.circle.api.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.circle.api.model.Circle;
 import com.circle.api.repository.CircleRepository;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CircleService {
@@ -30,11 +28,10 @@ public class CircleService {
         return circleRepository.getUserCircle(userId);
     }
     
-    public Circle addCircleMember(String userId,Circle circle,int circleSize) {
+    public Circle addCircleMember(String userId,Circle circle) {
         return circleRepository
-                .addCircleMember(userId,circle,circleSize)
+                .addCircleMember(userId,circle)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT,"Circle Size Limit Reached"));
-
     }
 
     public Circle removeCircleMember(String userId, String email) {

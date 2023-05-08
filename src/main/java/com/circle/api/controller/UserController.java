@@ -106,10 +106,9 @@ public class UserController {
   // POST a new member in the user circle (if circle size < 5 and member.email does not exist)
   @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST) 
   public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
-
-    int circleSize = userFacade.getUserCircle(userId).size();
     logger.info("Creating Circle Member"); 
-    return userFacade.addCircleMember(userId, circle, circleSize);
+
+    return userFacade.addCircleMember(userId, circle);
   
   }
 

@@ -69,8 +69,8 @@ public class UserFacade {
         return userCircle.stream().map(CircleMemberResponse::from).collect(Collectors.toList());
     }
     
-    public CircleMemberResponse addCircleMember(String userId, Circle circle, int circleSize) {
-        Circle circleMember = circleService.addCircleMember(userId,circle,circleSize);
+    public CircleMemberResponse addCircleMember(String userId, Circle circle) {
+        Circle circleMember = circleService.addCircleMember(userId,circle);
         return CircleMemberResponse.from(circleMember);
     }
 
