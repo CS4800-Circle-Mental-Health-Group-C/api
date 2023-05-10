@@ -72,5 +72,15 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
         return survey;
     }
 
-    
+    @Override
+    public Optional<Survey> deleteUserSurvey(String userId, String surveyId) {
+        Key key = 
+          Key.builder()
+             .partitionValue(User.USER_PK_PREFIX + userId)
+             .sortValue(Survey.SURVEY_SK_PREFIX + surveyId)
+             .build();   
+
+        return Optional.ofNullable(surveyTable.deleteItem(key));
+    }
+
 }

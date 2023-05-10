@@ -17,4 +17,6 @@ public interface SurveyRepository {
 
     public Survey createUserSurvey(String id, Survey survey);
 
+    public Optional<Survey> deleteUserSurvey(String userId, String surveyId);
+
 }

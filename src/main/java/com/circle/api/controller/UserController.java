@@ -80,6 +80,17 @@ public class UserController {
     return userFacade.createUserSurvey(id, survey);
   }
 
+  // DELETE a survey response taken by a user 
+  @RequestMapping(path = "/user/{id}/survey/{sid}", method = RequestMethod.DELETE)
+  public UserSurveyResponse deleteUserSurvey(
+    @PathVariable("id") String userId,@PathVariable("sid") String surveyId) {
+    
+      logger.info("Deleteing SURVEY#" + surveyId + " from USER#" + userId);
+
+      return userFacade.deleteUserSurvey(userId,surveyId);
+
+    }
+  
   // GET info from a specific circle member in a user circle
   @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.GET)
   public CircleMemberResponse getCircleMember(

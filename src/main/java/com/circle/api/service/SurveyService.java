@@ -45,4 +45,10 @@ public class SurveyService {
         return surveyRepository.createUserSurvey(id, survey);
     }
 
+    public Survey deleteUserSurvey(String userId, String surveyId) {
+        return surveyRepository
+                .deleteUserSurvey(userId, surveyId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No User Survey Found"));
+    }
+
 }
