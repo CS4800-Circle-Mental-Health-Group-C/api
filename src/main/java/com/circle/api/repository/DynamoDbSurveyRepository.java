@@ -4,6 +4,7 @@ import com.circle.api.model.Survey;
 import com.circle.api.model.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -22,13 +23,13 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
     }
 
     @Override
-    public Survey findSurveyById(String surveyId) {
+    public Optional<Survey> findSurveyById(String surveyId) {
         Key key = Key.builder()
                      .partitionValue(Survey.SurveyKeyBuilder.makePartitionKey(surveyId))
                      .sortValue(Survey.SurveyKeyBuilder.makeSortKey(surveyId))
                      .build();
         Survey survey = surveyTable.getItem(key);
-        return survey;
+        return Optional.ofNullable(survey);
     }
 
     @Override 
@@ -53,13 +54,13 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
     }
 
     @Override
-    public Survey findUserSurvey(String userId, String surveyId) {
+    public Optional<Survey> findUserSurvey(String userId, String surveyId) {
         Key key = Key.builder()
                      .partitionValue(User.USER_PK_PREFIX + userId)
                      .sortValue(Survey.SURVEY_SK_PREFIX + surveyId)
                      .build();
         Survey survey = surveyTable.getItem(key);
-        return survey;
+        return Optional.ofNullable(survey);
     }
 
     @Override
@@ -71,5 +72,15 @@ public class DynamoDbSurveyRepository implements SurveyRepository {
         return survey;
     }
 
-    
+    @Override
+    public Optional<Survey> deleteUserSurvey(String userId, String surveyId) {
+        Key key = 
+          Key.builder()
+             .partitionValue(User.USER_PK_PREFIX + userId)
+             .sortValue(Survey.SURVEY_SK_PREFIX + surveyId)
+             .build();   
+
+        return Optional.ofNullable(surveyTable.deleteItem(key));
+    }
+
 }

@@ -59,19 +59,33 @@ public class UserFacade {
     return UserSurveyResponse.from(createdUserSurvey);
   }
 
+  public UserSurveyResponse deleteUserSurvey(String userId, String surveyId) {
+    Survey survey = surveyService.deleteUserSurvey(userId, surveyId);
+    return UserSurveyResponse.from(survey);
+  }
+
   public CircleMemberResponse getCircleMember(String userId, String email) {
     Circle circle = circleService.getCircleMember(userId, email);
     return CircleMemberResponse.from(circle);
   }
 
   public List<CircleMemberResponse> getUserCircle(String userId) {
-    List<Circle> userCircle = circleService.getUserCircle(userId);
-    return userCircle.stream().map(CircleMemberResponse::from).collect(Collectors.toList());
+      List<Circle> userCircle = circleService.getUserCircle(userId);
+      return userCircle.stream().map(CircleMemberResponse::from).collect(Collectors.toList());
+  }
+  
+  public CircleMemberResponse addCircleMember(String userId, Circle circle) {
+      Circle circleMember = circleService.addCircleMember(userId,circle);
+      return CircleMemberResponse.from(circleMember);
   }
 
-  public CircleMemberResponse addCircleMember(String userId, Circle circle) {
-    List<Circle> userCircle = circleService.getUserCircle(userId);
-    Circle circleMember = circleService.addCircleMember(userId, circle, userCircle.size());
-    return CircleMemberResponse.from(circleMember);
+  public CircleMemberResponse removeCircleMember(String userId, String email) {
+      Circle circleMember = circleService.removeCircleMember(userId, email);
+      return CircleMemberResponse.from(circleMember);
+  }
+
+  public CircleMemberResponse updateCircleMember(String userId, Circle circle) {
+      Circle updatedCircleMember = circleService.updateCircleMember(userId, circle);
+      return CircleMemberResponse.from(updatedCircleMember);
   }
 }
