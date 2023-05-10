@@ -7,9 +7,11 @@ import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import com.circle.api.model.User;
 
 @EnableScan
-public interface UserRepository{
+public interface UserRepository {
 
-    Optional<User> findByUserId(String id);
+  Optional<User> findByUserId(String id);
 
-    User createUser(User user);
+  User createUser(User user);
+
+  User updateUser(User user);
 }

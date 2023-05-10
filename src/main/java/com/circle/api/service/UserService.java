@@ -19,11 +19,15 @@ public class UserService {
   public User findById(String id) {
     return userRepository
         .findByUserId(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No User Found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No User Found"));
   }
 
   public User createUser(User user) {
     user.setKey(user.getUserId());
     return userRepository.createUser(user);
+  }
+
+  public User updateUser(User user) {
+    return userRepository.updateUser(user);
   }
 }
