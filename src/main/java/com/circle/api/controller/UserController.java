@@ -16,6 +16,7 @@ import com.circle.api.model.Circle;
 import com.circle.api.model.Survey;
 import com.circle.api.model.User;
 import com.circle.api.model.response.CircleMemberResponse;
+import com.circle.api.model.response.UserHealthScoreResponse;
 import com.circle.api.model.response.UserResponse;
 import com.circle.api.model.response.UserSurveyResponse;
 
@@ -80,17 +81,16 @@ public class UserController {
     return userFacade.createUserSurvey(id, survey);
   }
 
-  // DELETE a survey response taken by a user 
+  // DELETE a survey response taken by a user
   @RequestMapping(path = "/user/{id}/survey/{sid}", method = RequestMethod.DELETE)
   public UserSurveyResponse deleteUserSurvey(
-    @PathVariable("id") String userId,@PathVariable("sid") String surveyId) {
-    
-      logger.info("Deleteing SURVEY#" + surveyId + " from USER#" + userId);
+      @PathVariable("id") String userId, @PathVariable("sid") String surveyId) {
 
-      return userFacade.deleteUserSurvey(userId,surveyId);
+    logger.info("Deleteing SURVEY#" + surveyId + " from USER#" + userId);
 
-    }
-  
+    return userFacade.deleteUserSurvey(userId, surveyId);
+  }
+
   // GET info from a specific circle member in a user circle
   @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.GET)
   public CircleMemberResponse getCircleMember(
@@ -115,28 +115,56 @@ public class UserController {
   }
 
   // POST a new member in the user circle (if circle size < 5 and member.email does not exist)
-  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST) 
-  public CircleMemberResponse addCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
-    logger.info("Creating Circle Member"); 
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.POST)
+  public CircleMemberResponse addCircleMember(
+      @PathVariable("uid") String userId, @RequestBody Circle circle) {
+    logger.info("Creating Circle Member");
 
     return userFacade.addCircleMember(userId, circle);
-  
   }
 
   // DELETE a member in the user circle
   @RequestMapping(path = "/user/{uid}/circle/{email}", method = RequestMethod.DELETE)
-  public CircleMemberResponse removeCircleMember(@PathVariable("uid") String userId, @PathVariable("email") String email) {
-    logger.info("Deleting Circle Member"); 
+  public CircleMemberResponse removeCircleMember(
+      @PathVariable("uid") String userId, @PathVariable("email") String email) {
+    logger.info("Deleting Circle Member");
 
-    return userFacade.removeCircleMember(userId,email);
+    return userFacade.removeCircleMember(userId, email);
   }
 
   // PATCH a member in the user circle using the RequestBody
-  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.PATCH) 
-  public CircleMemberResponse updateCircleMember(@PathVariable("uid") String userId, @RequestBody Circle circle) {
+  @RequestMapping(path = "/user/{uid}/circle", method = RequestMethod.PATCH)
+  public CircleMemberResponse updateCircleMember(
+      @PathVariable("uid") String userId, @RequestBody Circle circle) {
 
     logger.info("Updating Circle Member");
     return userFacade.updateCircleMember(userId, circle);
+  }
+
+  // GET a users health score
+  @RequestMapping(path = "/user/{uid}/healthscore", method = RequestMethod.GET)
+  public UserHealthScoreResponse getUserHealthScore(@PathVariable("uid") String id) {
+    logger.info("Getting USER#" + id + " health score");
+
+    return userFacade.getUserHealthScore(id);
+  }
+
+  // POST a users health score
+  @RequestMapping(path = "/user/{uid}/healthscore", method = RequestMethod.POST)
+  public UserHealthScoreResponse updateUserHealthScore(
+      @PathVariable("uid") String id, @RequestBody int healthScore) {
+    logger.info("Updating USER#" + id + " health score");
+
+    return userFacade.updateUserHealthScore(id, healthScore);
+  }
+
+  // PATCH a users health score
+  @RequestMapping(path = "/user/{uid}/healthscore", method = RequestMethod.PATCH)
+  public UserHealthScoreResponse patchUserHealthScore(
+      @PathVariable("uid") String id, @RequestBody int healthScore) {
+    logger.info("Patching USER#" + id + " health score");
+
+    return userFacade.updateUserHealthScore(id, healthScore);
   }
 }
 // - /user/{id}                  (GET - gets a user)
@@ -150,4 +178,3 @@ public class UserController {
 // - /user/{id}/circle/{email}   (DELETE - remove a member from user circle)
 
 // - /user/{id}/survey/date=?queryParam (GET - get a survey at a specific date)
-

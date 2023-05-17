@@ -33,4 +33,10 @@ public class DynamoDbUserRepository implements UserRepository {
     userTable.putItem(user);
     return user;
   }
+
+  @Override
+  public User updateUser(User user) {
+    userTable.putItem(user);
+    return user;
+  }
 }

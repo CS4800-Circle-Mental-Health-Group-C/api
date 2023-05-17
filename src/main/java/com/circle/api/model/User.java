@@ -4,7 +4,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttri
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 @DynamoDbBean
-public class User extends DynamoDbBase{
+public class User extends DynamoDbBase {
 
   public static final String USER_PK_PREFIX = "USER#";
   public static final String USER_SK_PREFIX = "USER#";
@@ -14,19 +14,21 @@ public class User extends DynamoDbBase{
   private String phone;
   private String userId;
   private String dateAdded;
+  private int healthScore;
 
   public User() {}
 
   public User(UserBuilder userBuilder) {
-    this.email = userBuilder.email; 
+    this.email = userBuilder.email;
     this.name = userBuilder.name;
     this.phone = userBuilder.phone;
     this.userId = userBuilder.userId;
     this.dateAdded = userBuilder.dateAdded;
+    this.healthScore = userBuilder.healthScore;
     this.partitionKey = userBuilder.partitionKey;
     this.sortKey = userBuilder.sortKey;
   }
-  
+
   public void setKey(String id) {
     setPartitionKey(UserKeyBuilder.makePartitionKey(id));
     setSortKey(UserKeyBuilder.makeSortKey(id));
@@ -77,7 +79,16 @@ public class User extends DynamoDbBase{
   public void setDateAdded(String dateAdded) {
     this.dateAdded = dateAdded;
   }
- 
+
+  @DynamoDbAttribute("Health Score")
+  public int getHealthScore() {
+    return healthScore;
+  }
+
+  public void setHealthScore(int healthScore) {
+    this.healthScore = healthScore;
+  }
+
   // Return UserBuilder Object
   public static UserBuilder builder() {
     return new UserBuilder();
@@ -90,37 +101,50 @@ public class User extends DynamoDbBase{
     private String phone;
     private String userId;
     private String dateAdded;
-    private String partitionKey; 
+    private int healthScore;
+    private String partitionKey;
     private String sortKey;
 
     public UserBuilder email(String email) {
-        this.email = email;
-        return this;
+      this.email = email;
+      return this;
     }
+
     public UserBuilder name(String name) {
       this.name = name;
       return this;
     }
+
     public UserBuilder phone(String phone) {
       this.phone = phone;
       return this;
     }
+
     public UserBuilder userId(String userId) {
       this.userId = userId;
       return this;
     }
+
     public UserBuilder dateAdded(String dateAdded) {
       this.dateAdded = dateAdded;
       return this;
     }
+
+    public UserBuilder healthScore(int healthScore) {
+      this.healthScore = healthScore;
+      return this;
+    }
+
     public UserBuilder partitionKey(String partitionKey) {
       this.partitionKey = partitionKey;
       return this;
     }
+
     public UserBuilder sortKey(String sortKey) {
       this.sortKey = sortKey;
       return this;
-    } 
+    }
+
     public User build() {
       return new User(this);
     }
@@ -128,13 +152,11 @@ public class User extends DynamoDbBase{
 
   public static class UserKeyBuilder {
     public static String makePartitionKey(String id) {
-        return USER_PK_PREFIX + id;
+      return USER_PK_PREFIX + id;
     }
 
     public static String makeSortKey(String id) {
-        return USER_SK_PREFIX + id;
+      return USER_SK_PREFIX + id;
     }
   }
 }
-
-
