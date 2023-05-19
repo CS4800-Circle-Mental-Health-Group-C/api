@@ -16,7 +16,7 @@ Resources:
       Policies:
         - AWSLambdaDynamoDBExecutionRole
         - DynamoDBCrudPolicy:
-            TableName: "*"
+            TableName: !Ref UserDynamoDBTable
       Timeout: 60
       SnapStart:
         ApplyOn: PublishedVersions
@@ -26,6 +26,23 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: any
+  UserDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "PK"
+          AttributeType: "S"
+        - AttributeName: "SK"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "PK"
+          KeyType: "HASH"
+        - AttributeName: "SK"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      TableName: "User"    
 Outputs:
   CircleApi:
     Description: URL for application

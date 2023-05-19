@@ -10,7 +10,8 @@ The project folder also includes a `template.yml` file. You can use this [SAM](h
 
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [SAM CLI](https://github.com/awslabs/aws-sam-cli)
-- [Gradle](https://gradle.org/) or [Maven](https://maven.apache.org/)
+- [Maven](https://maven.apache.org/)
+- [Java 17 - Coretto](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html)
 
 ## Building the project
 
@@ -41,7 +42,7 @@ From the project root folder - where the `template.yml` file is located - start 
 $ sam local start-api
 
 ...
-Mounting com.amazonaws.serverless.archetypes.StreamLambdaHandler::handleRequest (java11) at http://127.0.0.1:3000/{proxy+} [OPTIONS GET HEAD POST PUT DELETE PATCH]
+Mounting com.amazonaws.serverless.archetypes.StreamLambdaHandler::handleRequest (java17) at http://127.0.0.1:3000/{proxy+} [OPTIONS GET HEAD POST PUT DELETE PATCH]
 ...
 ```
 
