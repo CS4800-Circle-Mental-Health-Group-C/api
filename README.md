@@ -1,6 +1,6 @@
 # Circle Serverless API
 
-The Circle API project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
+The [Circle API](https://github.com/CS4800-Circle-Mental-Health-Group-C/api) project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
 
 This project serves as the backend for the Circle app. It is a [Serverless](https://serverless.com/) application, built with [AWS Lambda](https://aws.amazon.com/lambda/) and [Amazon API Gateway](https://aws.amazon.com/api-gateway/). It is built with [AWS SAM](https://aws.amazon.com/serverless/sam/) and [AWS CloudFormation](https://aws.amazon.com/cloudformation/). The project leverages the [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container) to run a Spring Boot 2 REST API in a Lambda function.
 
@@ -19,9 +19,11 @@ You can use the SAM CLI to quickly build the project
 
 ```bash
 $ sam build
-Building resource 'ApiFunction'
-Running JavaGradleWorkflow:GradleBuild
-Running JavaGradleWorkflow:CopyArtifacts
+Building codeuri: /home/camjl/repos/cs4800/api runtime: java17 metadata: {} architecture: x86_64 functions: ApiFunction
+Running JavaMavenWorkflow:CopySource
+Running JavaMavenWorkflow:MavenBuild
+Running JavaMavenWorkflow:MavenCopyDependency
+Running JavaMavenWorkflow:MavenCopyArtifacts
 
 Build Succeeded
 
@@ -61,6 +63,6 @@ Once the deployment is completed, the SAM CLI will print out the stack's outputs
 -------------------------------------------------------------------------------------------------------------
 OutputKey-Description                        OutputValue
 -------------------------------------------------------------------------------------------------------------
-ApiApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/pets
+ApiApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/
 -------------------------------------------------------------------------------------------------------------
 ```
